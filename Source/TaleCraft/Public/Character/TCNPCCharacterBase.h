@@ -4,10 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Interface/TCInteractableInterface.h"
 #include "TCNPCCharacterBase.generated.h"
 
 UCLASS()
-class TALECRAFT_API ATCNPCCharacterBase : public ACharacter
+class TALECRAFT_API ATCNPCCharacterBase : public ACharacter , public ITCInteractableInterface
 {
 	GENERATED_BODY()
 
@@ -26,4 +27,7 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+protected:
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
+	FGameplayTag NPCTag;
 };

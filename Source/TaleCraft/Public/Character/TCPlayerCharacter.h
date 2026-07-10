@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "TCPlayerCharacter.generated.h"
 
+class UTCPlayerInteractionComponent;
+class USphereComponent;
 class USpringArmComponent;
 class UCameraComponent;
 class UInputAction;
@@ -23,6 +25,12 @@ class TALECRAFT_API ATCPlayerCharacter : public ACharacter
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FollowCamera;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Interaction", meta=(AllowPrivateAccess="true"))
+	TObjectPtr<USphereComponent> InteractionSphereComp;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Interaction", meta=(AllowPrivateAccess="true"))
+	TObjectPtr<UTCPlayerInteractionComponent> InteractionComponent;
 	
 protected:
 
@@ -42,16 +50,25 @@ protected:
 	UPROPERTY(EditAnywhere, Category="Input")
 	UInputAction* MouseLookAction;
 
+	/** Jump Input Action */
+	UPROPERTY(EditAnywhere, Category="Input")
+	UInputAction* InteractAction;
 public:
 
 	/** Constructor */
 	ATCPlayerCharacter();	
+	
+	virtual void BeginPlay() override;
+	
+	void OnStopInteraction();
 
 protected:
 
 	/** Initialize input action bindings */
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	void Interact(const FInputActionValue& Value);
+	
 protected:
 
 	/** Called for movement input */

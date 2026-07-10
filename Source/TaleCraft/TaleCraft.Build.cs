@@ -18,26 +18,14 @@ public class TaleCraft : ModuleRules
 			"StateTreeModule",
 			"GameplayStateTreeModule",
 			"UMG",
-			"Slate"
+			"Slate",
+			"GameplayTags"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] { });
 
 		PublicIncludePaths.AddRange(new string[] {
 			"TaleCraft",
-			"TaleCraft/Variant_Platforming",
-			"TaleCraft/Variant_Platforming/Animation",
-			"TaleCraft/Variant_Combat",
-			"TaleCraft/Variant_Combat/AI",
-			"TaleCraft/Variant_Combat/Animation",
-			"TaleCraft/Variant_Combat/Gameplay",
-			"TaleCraft/Variant_Combat/Interfaces",
-			"TaleCraft/Variant_Combat/UI",
-			"TaleCraft/Variant_SideScrolling",
-			"TaleCraft/Variant_SideScrolling/AI",
-			"TaleCraft/Variant_SideScrolling/Gameplay",
-			"TaleCraft/Variant_SideScrolling/Interfaces",
-			"TaleCraft/Variant_SideScrolling/UI"
 		});
 
 		AddSuds();

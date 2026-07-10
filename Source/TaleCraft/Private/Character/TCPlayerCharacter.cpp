@@ -6,8 +6,13 @@
 #include "EnhancedInputComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/SphereComponent.h"
+#include "Components/TCPlayerInteractionComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Interface/TCInteractableInterface.h"
+#include "UI/TCHUD.h"
+#include "Utils/TCBlueprintFunctionLibrary.h"
 
 // Sets default values
 ATCPlayerCharacter::ATCPlayerCharacter()
@@ -47,9 +52,28 @@ ATCPlayerCharacter::ATCPlayerCharacter()
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
 
+	//Interaction Sphere
+	InteractionSphereComp = CreateDefaultSubobject<USphereComponent>(TEXT("InteractionSphereComp"));
+	InteractionSphereComp->SetupAttachment(RootComponent);
+	InteractionSphereComp->SetSphereRadius(200.f);
+	InteractionSphereComp->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	InteractionSphereComp->SetGenerateOverlapEvents(true);
+    InteractionSphereComp->SetCollisionObjectType(ECC_WorldDynamic);
+    InteractionSphereComp->SetCollisionResponseToAllChannels(ECR_Ignore);
+
+	//Interaction Component
+	InteractionComponent = CreateDefaultSubobject<UTCPlayerInteractionComponent>(TEXT("InteractionComponent"));
+	
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
 
+}
+
+void ATCPlayerCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+	
+	InteractionComponent->Initialize(InteractionSphereComp);
 }
 
 // Called to bind functionality to input
@@ -70,11 +94,65 @@ void ATCPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 
 	    // Looking
 	    EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ThisClass::Look);
+
+		//Interact
+		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Started, this, &ATCPlayerCharacter::Interact);
 	}
 	else
 	{
 	    UE_LOG(LogTemp, Error, TEXT("'%s' Failed to find an Enhanced Input component! This template is built to use the Enhanced Input system. If you intend to use the legacy system, then you will need to update this C++ file."), *GetNameSafe(this));
 	}
+	
+}
+
+void ATCPlayerCharacter::Interact(const FInputActionValue& Value)
+{
+	const AActor* CurrentInteractable = InteractionComponent->GetCurrentInteractable();
+	if(!IsValid(CurrentInteractable))
+	{
+		return;
+	}
+
+	APlayerController* PC = Cast<APlayerController>(GetController());
+	if (!PC)
+	{
+		return;
+	}
+	
+	ATCHUD* HUD = UTCBlueprintFunctionLibrary::GetTCHUD(this);
+	if (!HUD)
+	{
+		return;
+	}
+
+	const FGameplayTag InteractionTag = ITCInteractableInterface::Execute_GetInteractionTag(CurrentInteractable);
+	if(!InteractionTag.IsValid())
+	{
+		return;
+	}
+
+	//Change input mode UI only
+	FInputModeUIOnly InputMode;
+	InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+	PC->SetInputMode(InputMode);
+	PC->bShowMouseCursor = true;
+	
+	HUD->ShowInteractionUI(InteractionTag);
+	
+}
+
+void ATCPlayerCharacter::OnStopInteraction()
+{
+	APlayerController* PC = Cast<APlayerController>(GetController());
+	if (!PC)
+	{
+		return;
+	}
+	
+	//Change input mode Game only
+	FInputModeGameOnly InputMode;
+	PC->SetInputMode(InputMode);
+	PC->bShowMouseCursor = false;
 }
 
 void ATCPlayerCharacter::Move(const FInputActionValue& Value)
