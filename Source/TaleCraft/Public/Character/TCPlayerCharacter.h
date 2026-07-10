@@ -1,25 +1,18 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "Logging/LogMacros.h"
-#include "TaleCraftCharacter.generated.h"
+#include "TCPlayerCharacter.generated.h"
 
 class USpringArmComponent;
 class UCameraComponent;
 class UInputAction;
 struct FInputActionValue;
 
-DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
-
-/**
- *  A simple player-controllable third person character
- *  Implements a controllable orbiting camera
- */
-UCLASS(abstract)
-class ATaleCraftCharacter : public ACharacter
+UCLASS()
+class TALECRAFT_API ATCPlayerCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
@@ -52,7 +45,7 @@ protected:
 public:
 
 	/** Constructor */
-	ATaleCraftCharacter();	
+	ATCPlayerCharacter();	
 
 protected:
 
@@ -93,4 +86,3 @@ public:
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 };
-
