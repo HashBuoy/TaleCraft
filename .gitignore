@@ -124,6 +124,5 @@ Plugins/*/Intermediate/*
 DerivedDataCache/*
 
 
-/Plugins
 /.vscode
 LaunchGame.bat

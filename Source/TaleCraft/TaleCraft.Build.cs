@@ -1,5 +1,5 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
-
+using System.IO;
 using UnrealBuildTool;
 
 public class TaleCraft : ModuleRules
@@ -40,6 +40,8 @@ public class TaleCraft : ModuleRules
 			"TaleCraft/Variant_SideScrolling/UI"
 		});
 
+		AddSuds();
+		
 		// Uncomment if you are using Slate UI
 		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
 
@@ -47,5 +49,17 @@ public class TaleCraft : ModuleRules
 		// PrivateDependencyModuleNames.Add("OnlineSubsystem");
 
 		// To include OnlineSubsystemSteam, add it to the plugins section in your uproject file with the Enabled attribute set to true
+	}
+	
+	private string PluginsPath
+	{
+		get { return Path.GetFullPath( Path.Combine( ModuleDirectory, "../../Plugins/" ) ); }
+	}
+	
+	protected void AddSuds() {
+		// Linker
+		PrivateDependencyModuleNames.AddRange(new string[] { "SUDS" });
+		// Headers
+		PublicIncludePaths.Add(Path.Combine( PluginsPath, "SUDS", "Source", "SUDS", "Public"));
 	}
 }
