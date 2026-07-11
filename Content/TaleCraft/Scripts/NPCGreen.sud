@@ -1,7 +1,15 @@
 NPC.OliverGreen: Howdy Mister.
+[if {global.PillarPaint} == `Red`]
+    NPC.OliverGreen: Ugh, you agreed to paint it red.
+[elseif {global.PillarPaint} == `Green`]
+    NPC.OliverGreen: Green, green, green! GO green!!!
+    [goto end]
+[endif]
 NPC.OliverGreen: Would you like this pillar to be green?
-* Ok 
-  [event Event.Paint.Green]
-  NPC.OliverGreen: Thanks have a lovely day!
-* No, Sorry.
-[goto end] 
+* Sure 
+    [event Event.Paint.Green]
+    [set global.PillarPaint `Green`]
+    NPC.OliverGreen: Thanks Mister!
+* No way
+* I'll think about it.
+    NPC.OliverGreen: You have 1 microsecond time to decide.

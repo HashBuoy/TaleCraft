@@ -1,7 +1,14 @@
 NPC.ArthurRedman: Hi, how are you sir.
+[if {global.PillarPaint} == `Green`]
+    NPC.ArthurRedman: Ugh, you agreed to paint it green.
+[elseif {global.PillarPaint} == `Red`]
+    NPC.ArthurRedman: I like the red pillar, it shines bright under sky.
+    [goto end]
+[endif]
 NPC.ArthurRedman: Would you paint this pillar red for me?
 * Sure 
   [event Event.Paint.Red]
+  [set global.PillarPaint `Red`]
   NPC.ArthurRedman: Thanks have a lovely day!
 * No, Sorry.
-[goto end] 
+
