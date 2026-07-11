@@ -1,6 +1,7 @@
-Vagabond: Well met, fellow traveller!
+NPC.ArthurRedman: Well met, fellow traveller!
   * Er, hi?
-    Vagabond: Verily, 'tis wondrous to see such a fine fellow on the road this morn!
+    NPC.OliverGreen: Verily, 'tis wondrous to see such a fine fellow on the road this morn!
+    Player:Bye
   * (Keep quiet)
     Vagabond: What, cat got your tongue?
   * Jog on, mate
