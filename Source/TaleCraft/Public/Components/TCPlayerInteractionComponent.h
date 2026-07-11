@@ -3,9 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 #include "Components/ActorComponent.h"
 #include "Components/SphereComponent.h"
 #include "TCPlayerInteractionComponent.generated.h"
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FInteractableChangedSignature,FGameplayTag,InteractionTag);
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -21,6 +24,10 @@ public:
 	AActor* GetCurrentInteractable() const;
 
 	void Initialize(USphereComponent* SphereComponent);
+
+	UPROPERTY(BlueprintAssignable)
+	FInteractableChangedSignature OnInteractableChanged;
+	
 protected:
 
 	UFUNCTION()

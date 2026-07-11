@@ -146,7 +146,8 @@ void ATCPlayerCharacter::Interact(const FInputActionValue& Value)
 	InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
 	PC->SetInputMode(InputMode);
 	PC->bShowMouseCursor = true;
-	
+	PC->SetIgnoreMoveInput(true);
+	GetCharacterMovement()->StopActiveMovement();
 }
 
 void ATCPlayerCharacter::OnStopInteraction()
@@ -161,6 +162,7 @@ void ATCPlayerCharacter::OnStopInteraction()
 	FInputModeGameOnly InputMode;
 	PC->SetInputMode(InputMode);
 	PC->bShowMouseCursor = false;
+	PC->SetIgnoreMoveInput(false);
 }
 
 void ATCPlayerCharacter::Move(const FInputActionValue& Value)

@@ -54,6 +54,9 @@ void UTCPlayerInteractionComponent::OnBeginOverlap(UPrimitiveComponent* Overlapp
 	}
 	
 	NearbyInteractables.AddUnique(OtherActor);
+
+	const FGameplayTag InteractionTag = ITCInteractableInterface::Execute_GetInteractionTag(OtherActor);
+	OnInteractableChanged.Broadcast(InteractionTag);
 }
 
 void UTCPlayerInteractionComponent::OnEndOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
@@ -69,4 +72,13 @@ void UTCPlayerInteractionComponent::OnEndOverlap(UPrimitiveComponent* Overlapped
 
 	NearbyInteractables.Remove(OtherActor);
 
+	if(const AActor* CurrentInteractable = GetCurrentInteractable())
+	{
+		const FGameplayTag InteractionTag = ITCInteractableInterface::Execute_GetInteractionTag(CurrentInteractable);
+		OnInteractableChanged.Broadcast(InteractionTag);
+	}
+	else
+	{
+		OnInteractableChanged.Broadcast(FGameplayTag());
+	}
 }
