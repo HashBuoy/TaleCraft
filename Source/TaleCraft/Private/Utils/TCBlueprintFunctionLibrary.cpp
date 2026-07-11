@@ -21,3 +21,8 @@ ATCHUD* UTCBlueprintFunctionLibrary::GetTCHUD(const UObject* WorldContextObject)
 
 	return Cast<ATCHUD>(PC->GetHUD());
 }
+
+FGameplayTag UTCBlueprintFunctionLibrary::GameplayTagFromString(const FString& TagString)
+{
+	return FGameplayTag::RequestGameplayTag(FName(*TagString), false);
+}

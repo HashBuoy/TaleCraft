@@ -4,6 +4,7 @@
 #include "Character/TCPlayerCharacter.h"
 
 #include "EnhancedInputComponent.h"
+#include "SUDSDialogue.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/SphereComponent.h"
@@ -139,6 +140,11 @@ void ATCPlayerCharacter::Interact(const FInputActionValue& Value)
 	}
 	
 	USUDSDialogue* Dialogue = DialogueSubsystem->CreateDialogue(CurrentInteractable);
+	if (!IsValid(Dialogue))
+	{
+		return;
+	}
+	
 	HUD->ShowInteractionUI(Dialogue);
 
 	//Change input mode UI only

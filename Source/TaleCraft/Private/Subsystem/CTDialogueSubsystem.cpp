@@ -40,6 +40,7 @@ USUDSDialogue* UCTDialogueSubsystem::CreateDialogue(AActor* Interactable)
 	}
 
 	USUDSDialogue* Dialogue = USUDSLibrary::CreateDialogue(this, (*Script).Get(), false);
+	Dialogue->AddParticipant(this);
 	return Dialogue;
 
 	

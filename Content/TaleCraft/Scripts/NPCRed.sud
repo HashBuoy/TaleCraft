@@ -1,0 +1,7 @@
+NPC.ArthurRedman: Hi, how are you sir.
+NPC.ArthurRedman: Would you paint this pillar red for me?
+* Sure 
+  [event Event.Paint.Red]
+  NPC.ArthurRedman: Thanks have a lovely day!
+* No, Sorry.
+[goto end] 

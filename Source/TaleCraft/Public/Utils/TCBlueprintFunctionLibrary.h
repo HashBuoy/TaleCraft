@@ -18,4 +18,7 @@ class TALECRAFT_API UTCBlueprintFunctionLibrary : public UBlueprintFunctionLibra
 public:
 	UFUNCTION(BlueprintPure, Category="TC|UI", meta=(WorldContext="WorldContextObject"))
     static ATCHUD* GetTCHUD(const UObject* WorldContextObject);
+
+	UFUNCTION(BlueprintPure, Category="Gameplay Tags")
+	static FGameplayTag GameplayTagFromString(const FString& TagString);
 };

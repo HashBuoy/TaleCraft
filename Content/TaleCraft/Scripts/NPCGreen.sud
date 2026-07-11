@@ -1,0 +1,7 @@
+NPC.OliverGreen: Howdy Mister.
+NPC.OliverGreen: Would you like this pillar to be green?
+* Ok 
+  [event Event.Paint.Green]
+  NPC.OliverGreen: Thanks have a lovely day!
+* No, Sorry.
+[goto end] 
