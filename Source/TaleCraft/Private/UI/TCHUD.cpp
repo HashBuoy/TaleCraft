@@ -5,9 +5,10 @@
 
 #include "Character/TCPlayerCharacter.h"
 
-void ATCHUD::ShowInteractionUI_Implementation(FGameplayTag InteractionTag)
+void ATCHUD::ShowInteractionUI_Implementation(USUDSDialogue* InteractionTag)
 {
 }
+
 
 void ATCHUD::StopInteraction_Implementation()
 {
@@ -16,3 +17,4 @@ void ATCHUD::StopInteraction_Implementation()
 		PC->OnStopInteraction();
 	}
 }
+

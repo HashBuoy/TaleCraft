@@ -7,6 +7,7 @@
 #include "GameFramework/HUD.h"
 #include "TCHUD.generated.h"
 
+class USUDSDialogue;
 /**
  * 
  */
@@ -17,7 +18,7 @@ class TALECRAFT_API ATCHUD : public AHUD
 
 public:
 	UFUNCTION(BlueprintNativeEvent)
-	void ShowInteractionUI(FGameplayTag InteractionTag);
+	void ShowInteractionUI(USUDSDialogue* Dialogue);
 
 	UFUNCTION(BlueprintCallable,BlueprintNativeEvent)
 	void StopInteraction();

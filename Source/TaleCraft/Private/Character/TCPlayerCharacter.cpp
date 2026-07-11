@@ -11,6 +11,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Interface/TCInteractableInterface.h"
+#include "Subsystem/CTDialogueSubsystem.h"
 #include "UI/TCHUD.h"
 #include "Utils/TCBlueprintFunctionLibrary.h"
 
@@ -107,7 +108,7 @@ void ATCPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 
 void ATCPlayerCharacter::Interact(const FInputActionValue& Value)
 {
-	const AActor* CurrentInteractable = InteractionComponent->GetCurrentInteractable();
+	AActor* CurrentInteractable = InteractionComponent->GetCurrentInteractable();
 	if(!IsValid(CurrentInteractable))
 	{
 		return;
@@ -130,14 +131,21 @@ void ATCPlayerCharacter::Interact(const FInputActionValue& Value)
 	{
 		return;
 	}
+	
+	UCTDialogueSubsystem* DialogueSubsystem = GetWorld()->GetSubsystem<UCTDialogueSubsystem>();
+	if (!IsValid(DialogueSubsystem))
+	{
+		return;
+	}
+	
+	USUDSDialogue* Dialogue = DialogueSubsystem->CreateDialogue(CurrentInteractable);
+	HUD->ShowInteractionUI(Dialogue);
 
 	//Change input mode UI only
 	FInputModeUIOnly InputMode;
 	InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
 	PC->SetInputMode(InputMode);
 	PC->bShowMouseCursor = true;
-	
-	HUD->ShowInteractionUI(InteractionTag);
 	
 }
 
